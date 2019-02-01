@@ -12,10 +12,6 @@ sudo: required
 
 language: cpp
 
-cache:
-  directories:
-    - $HOME/_cache
-
 matrix:
   include:
     - name: "linux-gcc"
