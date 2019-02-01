@@ -2,7 +2,7 @@ branches:
   only:
     - master
     - travis
-    - pre-release
+    - coverage
 
 git:
   depth: 1
