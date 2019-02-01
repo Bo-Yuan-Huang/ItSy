@@ -2,13 +2,19 @@ branches:
   only:
     - master
     - travis
-    - coverage
+    - pre-release
 
 git:
   depth: 1
   submodules: false
 
+sudo: required
+
 language: cpp
+
+cache:
+  directories:
+    - $HOME/_cache
 
 matrix:
   include:
@@ -19,37 +25,37 @@ matrix:
       before_install:
         - gem install coveralls-lcov
       before_script:
+        - mkdir -p $TRAVIS_BUILD_DIR/build 
         - source $TRAVIS_BUILD_DIR/scripts/travis/clean-coverage.sh $TRAVIS_BUILD_DIR/build
       after_success:
         - source $TRAVIS_BUILD_DIR/scripts/travis/submit-coverage.sh $TRAVIS_BUILD_DIR/build
 
-     - name: "linux-clang"
-       os: linux
-       dist: xenial
-       compiler: clang
-       before_install:
-         - export LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
+    - name: "linux-clang"
+      os: linux
+      dist: xenial
+      compiler: clang
+      before_install:
+        - export LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
 
-     - name: "osx"
-       os: osx
-
-sudo: required
+    - name: "osx"
+      os: osx
 
 addons:
   apt:
     update: true
     packages:
+      - lcov
       - libboost-all-dev
       - z3
       - libz3-dev
-
   homebrew:
     update: true
     packages:
+      - python
       - boost
       - boost-python
       - z3
-   
+  
 script:
   - cd $TRAVIS_BUILD_DIR/
   - bjam -j$(nproc)
