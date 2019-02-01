@@ -6,7 +6,7 @@ branches:
 
 git:
   depth: 1
-    submodules: false
+  submodules: false
 
 language: cpp
 
